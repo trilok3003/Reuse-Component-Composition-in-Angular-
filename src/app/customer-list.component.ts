@@ -3,27 +3,27 @@ import { Component, Input } from "@angular/core";
 @Component({
   selector: "customers-list",
   template: `
-    <list
-     [items]="items"
-     [itemsPerPage]="2"
-     [currentPage]="currentPage"
-    >
-     <ng-template #item let-item="item">
-       <customer
-        (selected)="selected($event)"
-        (unselected)="unselected($event)"
-        [item]="item"
-        [isSelected]="isItemSelected(item)"
-       ></customer>
-     </ng-template>
-    </list>
- 
-    <pagination
-     [currentPage]="currentPage"
-     [itemsLength]="items.length"
-     [itemsPerPage]="2"
-     (pageChanged)="currentPage = $event"
-    ></pagination>
+  <div *ngFor="let item of items | slice: start : end">
+  <label>
+    <input
+      type="checkbox"
+      [checked]="isItemSelected(item)"
+      (change)="
+        $event.target.checked ? select(item) : unselect(item)
+      "
+    />
+   {{ item.display }}
+  </label>
+ </div>
+ <div class='pages'>
+ <div *ngFor="let p of pages; let i = index;" 
+      class='page' 
+      [class.selected]="i === page" 
+      (click)="changePage(i)"
+  >
+  {{ i }}
+ </div>
+</div>
 `
 })
 export class CustomersListComponent {

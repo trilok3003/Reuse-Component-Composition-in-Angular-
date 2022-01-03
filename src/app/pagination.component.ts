@@ -1,24 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-@Component({
-  selector: 'pagination',
-  template: `
-  <div class="pages">
-  <div *ngFor="let p of pages; let i = index"
-   class="page"
-   [class.selected]="i === currentPage"
-   (click)="pageChanged.emit(i)" >
-   {{ i }} 
-  </div>
-</div>`,
-})
-export class PaginationComponent {
-  @Input() currentPage: number;
-  @Input() itemsPerPage = 2;
-  @Input() itemsLength: number;
-
-  @Output() pageChanged = new EventEmitter<number>();
+import { ListComponent } from './list.component';
+export class PaginationComponent extends ListComponent {
+  page = 0;
+  itemsPerPage = 2;
+  get start() {
+   return this.page * this.itemsPerPage;
+  }
+  get end() {
+   return this.page * this.itemsPerPage + this.itemsPerPage;
+  }
   get pages() {
-    return new Array(this.itemsLength / this.itemsPerPage);
+    return new Array(this.items.length / this.itemsPerPage);
+  }
+
+  changePage(page: number) {
+    this.page = page;
   }
 }

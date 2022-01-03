@@ -1,1 +1,4 @@
-<customers-list [items]="items"></customers-list>
+<customers-list [items]="customers" 
+                (selected)="onSelected($event)"               
+                (unselected)="onUnselected($event)"
+></customers-list>
